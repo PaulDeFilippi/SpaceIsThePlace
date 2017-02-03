@@ -12,6 +12,7 @@
 		4F6456351E442A7600E37899 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F6456331E442A7600E37899 /* Main.storyboard */; };
 		4F6456371E442A7600E37899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F6456361E442A7600E37899 /* Assets.xcassets */; };
 		4F64563A1E442A7600E37899 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F6456381E442A7600E37899 /* LaunchScreen.storyboard */; };
+		4F6456421E44342900E37899 /* InteractiveStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6456411E44342900E37899 /* InteractiveStory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4F6456361E442A7600E37899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F6456391E442A7600E37899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F64563B1E442A7600E37899 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F6456411E44342900E37899 /* InteractiveStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveStory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				4F6456361E442A7600E37899 /* Assets.xcassets */,
 				4F6456381E442A7600E37899 /* LaunchScreen.storyboard */,
 				4F64563B1E442A7600E37899 /* Info.plist */,
+				4F6456411E44342900E37899 /* InteractiveStory.swift */,
 			);
 			path = Interactivestory;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F6456421E44342900E37899 /* InteractiveStory.swift in Sources */,
 				4F6456321E442A7600E37899 /* ViewController.swift in Sources */,
 				4F6456301E442A7600E37899 /* AppDelegate.swift in Sources */,
 			);
