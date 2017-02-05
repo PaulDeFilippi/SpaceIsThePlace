@@ -17,6 +17,16 @@ class ViewController: UIViewController {
 //        let story = Page(story: .TouchDown)
 //        story.firstChoice = (title: "some Title", page: Page(story: .Droid))
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "startAdventure" {
+            if let pageController = segue.destination as? PageController {
+                pageController.page = Adventure.story
+            }
+        }
+    }
 
 }
+
+
 
