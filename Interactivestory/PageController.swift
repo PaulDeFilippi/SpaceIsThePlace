@@ -1,6 +1,6 @@
 //
 //  PageController.swift
-//  Interactivestory
+//  Space Is The Place
 //
 //  Created by Paul Defilippi on 2/3/17.
 //  Copyright © 2017 Paul Defilippi. All rights reserved.
