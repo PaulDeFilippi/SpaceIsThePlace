@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 enum Story {
-    case returnTrip(String)
+    case returnTrip(name: String)
     case touchDown
     case homeward
-    case rover(String)
+    case rover(name: String)
     case cave
     case crate
     case monster
-    case droid(String)
+    case droid(name: String)
     case home
     
     var rawValue: String {
@@ -38,6 +38,19 @@ enum Story {
 extension Story {
     var artwork: UIImage {
         return UIImage(named: self.rawValue)!
+    }
+    
+    var soundEffectUrl: NSURL {
+        let fileName: String
+        
+        switch self {
+        case .droid, .home: fileName = "HappyEnding"
+        case .monster: fileName = "Ominous"
+        default: fileName = "PageTurn"
+        }
+        
+        let path = Bundle.main.path(forResource: fileName, ofType: "wav")!
+        return NSURL(fileURLWithPath: path)
     }
     
     var text: String {
@@ -100,10 +113,10 @@ extension Page {
 
 struct Adventure {
     static func story(name: String) -> Page {
-        let returnTrip = Page(story: .returnTrip(name))
+        let returnTrip = Page(story: .returnTrip(name: name))
         let touchdown = returnTrip.addChoice("Stop and Investigate", story: .touchDown)
         let homeward = returnTrip.addChoice("Continue Home to Earth", story: .homeward)
-        let rover = touchdown.addChoice("Explore the Rover", story: .rover(name))
+        let rover = touchdown.addChoice("Explore the Rover", story: .rover(name: name))
         let crate = touchdown.addChoice("Open the Crate", story: .crate)
         
         homeward.addChoice("Head back to Mars", page: touchdown)
@@ -112,7 +125,7 @@ struct Adventure {
         let cave = rover.addChoice("Explore the Coordinates", story: .cave)
         rover.addChoice("Return to Earth", page: home)
         
-        cave.addChoice("Continue towards faint light", story: .droid(name))
+        cave.addChoice("Continue towards faint light", story: .droid(name: name))
         cave.addChoice("Refill the ship and explore the rover", page: rover)
         
         crate.addChoice("Explore the Rover", page: rover)

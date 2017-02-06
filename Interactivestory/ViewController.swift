@@ -8,78 +8,79 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
-    
-    enum Error: Error {
-        case NoName
-    }
+enum AdventureError: Error {
+    case nameNotProvided
+}
+
+class ViewController: UIViewController {
     
     @IBOutlet weak var textFieldBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "startAdventure" {
             
-            
             do {
                 if let name = nameTextField.text {
                     if name == "" {
-                        throw Error.NoName
-                    }
-                    if let pageController = segue.destination as? PageController {
+                        throw AdventureError.nameNotProvided
+                    } else {
+                        guard let pageController = segue.destination as? PageController else { return }
+                        
                         pageController.page = Adventure.story(name: name)
                     }
                 }
-            } catch Error.NoName {
-                let alertController = UIAlertController(title: "Name Not Provided", message: "Provide a name to start your story!", preferredStyle: .alert)
+            } catch AdventureError.nameNotProvided {
+                let alertController = UIAlertController(title: "Name Not Provided", message: "Provide a name to start the story", preferredStyle: .alert)
+                
                 let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(action)
                 
                 present(alertController, animated: true, completion: nil)
             } catch let error {
-                fatalError("\(error)")
+                fatalError("\(error.localizedDescription)")
             }
-
-            
         }
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        if let userInfoDict = notification.userInfo, let keyboardFrameValue = userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardFrame = keyboardFrameValue.cgRectValue
+    func keyboardWillShow(_ notification: Notification) {
+        if let info = notification.userInfo, let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let frame = keyboardFrame.cgRectValue
+            textFieldBottomConstraint.constant = frame.size.height + 10
             
             UIView.animate(withDuration: 0.8) {
-                self.textFieldBottomConstraint.constant = keyboardFrame.size.height + 10
                 self.view.layoutIfNeeded()
             }
         }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
+        textFieldBottomConstraint.constant = 40
+        
         UIView.animate(withDuration: 0.8) {
-            self.textFieldBottomConstraint.constant = 40.0
             self.view.layoutIfNeeded()
+        }
     }
     
-    // MARK: - UITextFieldDelegate
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
+}
+
+extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-    
-
 }
-
-
 
